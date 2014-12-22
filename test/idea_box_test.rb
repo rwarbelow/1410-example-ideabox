@@ -11,13 +11,13 @@ class AppTest < Minitest::Test
   end
 
   def teardown
-  	IdeaStore.delete_all
+    IdeaStore.delete_all
   end
 
   def test_an_idea_is_created_using_ideastore
     # this only tests IdeaStore functionality -- doesn't have anything to do with the web app
-  	idea = IdeaStore.create({title: "testtitle", description: "testdescription"})
-  	assert_equal 1, IdeaStore.all.count
+    idea = IdeaStore.create({title: "testtitle", description: "testdescription"})
+    assert_equal 1, IdeaStore.all.count
   end
 
   def test_it_creates_an_idea_by_posting_params
