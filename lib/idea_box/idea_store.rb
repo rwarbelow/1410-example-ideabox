@@ -39,7 +39,11 @@ class IdeaStore
 
 	def self.database
 		return @database if @database
-		@database = YAML::Store.new('db/ideabox')
+		if ENV["RACK_ENV"] == "test"
+			@database = YAML::Store.new('test/fake_ideabox')
+		else
+			@database = YAML::Store.new('db/ideabox')
+		end
 		@database.transaction do
 			@database['ideas'] ||= []
 		end
@@ -49,6 +53,12 @@ class IdeaStore
 	def self.create(attributes)
 		database.transaction do
 			database['ideas'] << attributes
+		end
+	end
+
+	def self.delete_all
+		database.transaction do 
+			database['ideas'] = []
 		end
 	end
 end

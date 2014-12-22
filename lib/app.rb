@@ -1,19 +1,9 @@
 require_relative 'idea_box'
-
-require "sinatra/config_file"
-
+require 'sinatra/base'
 
 class IdeaBoxApp < Sinatra::Base
 	set :method_override, true
 	set :root, 'lib/app'
-
-	configure :development do
-		register Sinatra::Reloader
-	end
-
-	register Sinatra::ConfigFile
-
-  config_file '../config.yml'
 
 	not_found do
 		erb :error
@@ -24,29 +14,29 @@ class IdeaBoxApp < Sinatra::Base
 	end
 
 	post '/' do
-		IdeaStore.create(params[:idea], settings.dbpath)
+		IdeaStore.create(params[:idea])
 		redirect '/'
 	end
 
 	get '/:id/edit' do |id|
-		idea = IdeaStore.find(id.to_i, settings.dbpath)
+		idea = IdeaStore.find(id.to_i)
 		erb :edit, locals: {idea: idea}
 	end
 
 	delete '/:id' do |id|
-		IdeaStore.delete(id.to_i, settings.dbpath)
+		IdeaStore.delete(id.to_i)
 		redirect '/'
 	end
 
 	put '/:id' do |id|
-		IdeaStore.update(id.to_i, params[:idea], settings.dbpath)
+		IdeaStore.update(id.to_i, params[:idea])
 		redirect '/'
 	end
 
 	post '/:id/like' do |id|
-		idea = IdeaStore.find(id.to_i, settings.dbpath)
+		idea = IdeaStore.find(id.to_i)
 		idea.like!
-		IdeaStore.update(id.to_i, idea.to_h, settings.dbpath)
+		IdeaStore.update(id.to_i, idea.to_h)
 		redirect '/'
 	end
 

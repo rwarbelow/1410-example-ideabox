@@ -1,4 +1,4 @@
-    <h1>IdeaBox</h1>
+    <h1>Rachel's Ideabox</h1>
     <form action='/' method='POST'>
       <p>
         Your Idea:
@@ -8,14 +8,14 @@
       <input type='submit'/>
     </form>
 
-    <ul>
+    <ul id='ideas'>
 		  <% ideas.each do |idea| %>
 		    <li>
 		      <form action='/<%= idea.id %>/like' method='POST' style="display: inline">
 		        <input type='submit' value="+"/>
 		      </form>
-		      <%= idea.title %><br/>
-		      <%= idea.description %>
+		      <h3><%= idea.title %></h3>
+		      <p><%= idea.description %></p>
 		      <a href="/<%= idea.id %>/edit">Edit</a>
 		      <form action='/<%= idea.id %>' method='POST'>
 		        <input type="hidden" name="_method" value="DELETE">
